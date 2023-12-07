@@ -9,12 +9,11 @@ public class EjemploFactura {
 
         Cliente cliente = new Cliente();
         cliente.setNif("5555-5");
-        cliente.setNif("Andrés");
+        cliente.setNombre("Andrés");
 
         Scanner s = new Scanner(System.in);
         System.out.print("Ingrese una descripción de la factura: ");
-        String desc = s.nextLine();
-        Factura factura = new Factura(desc, cliente);
+        Factura factura = new Factura(s.nextLine(), cliente);
 
         Producto producto;
         /*String nombre;
@@ -24,7 +23,7 @@ public class EjemploFactura {
 
         System.out.println();
 
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 2; i++){
             producto = new Producto();
             System.out.print("Ingrese producto n° " + producto.getCodigo() + ": ");
             producto.setNombre( s.nextLine());
