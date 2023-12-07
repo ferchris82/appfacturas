@@ -1,5 +1,6 @@
 package org.chrisferdev.appfacturas.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Factura {
@@ -53,9 +54,67 @@ public class Factura {
         return items;
     }
 
-    public void addItemFactura(ItemFactura item){
-        if(indiceItems < MAX_ITEMS) {
+    public void addItemFactura(ItemFactura item) {
+        if (indiceItems < MAX_ITEMS) {
             this.items[indiceItems++] = item;
         }
+    }
+
+    public float calcularTotal() {
+        float total = 0.0f;
+        for (ItemFactura item : this.items) {
+            if (item == null) {
+                continue;
+            }
+            total += item.calculaImporte();
+        }
+        return total;
+    }
+
+    public String generarDetalle() {
+        StringBuilder sb = new StringBuilder("Factura N°: ");
+        sb.append(folio)
+                .append("\nCliente: ")
+                .append(this.cliente.getNombre())
+                .append("\t NIF: ")
+                .append(cliente.getNombre())
+                .append("\nDescripción: ")
+                .append(this.descripcion)
+                .append("\n")
+                .append("\n");
+
+        SimpleDateFormat df = new SimpleDateFormat("dd 'de' MMMM, yyyy");
+        sb.append("Fecha Emisión: ")
+                .append(df.format(this.fecha))
+                .append("\n")
+                .append("\n#\tNombre\t$\tCant.\tTotal\n");
+
+        for(ItemFactura item: this.items){
+            if(item == null){
+                continue;
+            }
+            sb.append(item)
+                    .append("\n");
+            /*sb.append(item.getProducto().getCodigo())
+                    .append("\t")
+                    .append(item.getProducto().getNombre())
+                    .append("\t")
+                    .append(item.getProducto().getPrecio())
+                    .append("\t")
+                    .append(item.getCantidad())
+                    .append("\t")
+                    .append(item.calculaImporte())
+                    .append("\n");
+
+             */
+        }
+        sb.append("\nGran Total: ")
+                .append(calcularTotal());
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return generarDetalle();
     }
 }
